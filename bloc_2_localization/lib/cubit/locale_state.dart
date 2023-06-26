@@ -1,13 +1,7 @@
 part of 'locale_cubit.dart';
 
-@immutable
-abstract class LocaleState {}
-
-class LocaleInitial extends LocaleState {}
-
-class ChangeLocalState extends LocaleState {
+class ChangeLocalState {
   final Locale locale;
-
   ChangeLocalState({
     required this.locale,
   });

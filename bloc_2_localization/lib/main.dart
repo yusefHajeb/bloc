@@ -24,43 +24,41 @@ class MyApp extends StatelessWidget {
           create: (context) => LocaleCubit()..getSavedLanguage(),
         ),
       ],
-      child: BlocBuilder<LocaleCubit, LocaleState>(
+      child: BlocBuilder<LocaleCubit, ChangeLocalState>(
         builder: (context, state) {
-          if (state is ChangeLocalState)
-            return MaterialApp(
-              locale: state.locale,
-              localizationsDelegates: const [
-                AppLocalizations.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: const [
-                Locale('en'),
-                Locale('ar'),
-              ],
+          return MaterialApp(
+            locale: state.locale,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'),
+              Locale('ar'),
+            ],
 
-              //return and change local lunguage , supportedLocal that phon support
-              localeResolutionCallback: (deviceLocal, supportedLocal) {
-                for (var local in supportedLocal) {
-                  // if my phone support deviceLocal
-                  if (deviceLocal != null &&
-                      deviceLocal.languageCode == local.languageCode) {
-                    return deviceLocal;
-                  }
+            //return and change local lunguage , supportedLocal that phon support
+            localeResolutionCallback: (deviceLocal, supportedLocal) {
+              for (var local in supportedLocal) {
+                // if my phone support deviceLocal
+                if (deviceLocal != null &&
+                    deviceLocal.languageCode == local.languageCode) {
+                  return deviceLocal;
                 }
+              }
 
-                return supportedLocal
-                    .first; //covert eng when no support luanguage deviceLocal
-              },
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
-              home: const HomePage(),
-            );
-
-          return SizedBox();
+              return supportedLocal
+                  .first; //covert eng when no support luanguage deviceLocal
+            },
+            title: 'Flutter Demo',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            home: const HomePage(),
+            debugShowCheckedModeBanner: false,
+          );
         },
       ),
     );
@@ -74,6 +72,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text("main".tr(context)),
         leading: IconButton(
           onPressed: () {
             Navigator.of(context).push(
@@ -87,6 +86,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text("Hellow _msg".tr(context)),
             SizedBox(

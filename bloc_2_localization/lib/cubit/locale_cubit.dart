@@ -5,8 +5,8 @@ import 'package:meta/meta.dart';
 
 part 'locale_state.dart';
 
-class LocaleCubit extends Cubit<LocaleState> {
-  LocaleCubit() : super(LocaleInitial());
+class LocaleCubit extends Cubit<ChangeLocalState> {
+  LocaleCubit() : super(ChangeLocalState(locale: Locale('en')));
   Future<void> getSavedLanguage() async {
     final String cachedLanguageCode =
         await LanguageCacheHelper().getCachedLanguageCode();

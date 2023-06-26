@@ -13,35 +13,49 @@ class SettingPage extends StatelessWidget {
         title: Text("Setting".tr(context)),
       ),
       body: Center(
-        child: BlocConsumer<LocaleCubit, LocaleState>(
-          listener: (context, state) {
-            if (state is ChangeLocalState) Navigator.pop(context);
-          },
-          builder: (context, state) {
-            if (state is ChangeLocalState) {
-              return DropdownButton<String>(
-                value: state.locale.languageCode,
-                icon: const Icon(Icons.keyboard_arrow_down),
-                items: ['ar', 'en'].map((String items) {
-                  return DropdownMenuItem<String>(
-                    value: items,
-                    child: Text(items),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  if (newValue != null) {
-                    // BlocProvider.of<LocaleCubit>(context)
-                    //     .changeLanguage(newValue);
-
-                    context.read<LocaleCubit>().changeLanguage(newValue);
-                    // Navigator.pop(context);
-                  }
-                },
+        child: BlocConsumer<LocaleCubit, ChangeLocalState>(
+            listener: (context, state) {
+          Navigator.pop(context);
+        }, builder: (context, state) {
+          return DropdownButton<String>(
+            dropdownColor: Colors.white,
+            icon: const Icon(Icons.arrow_drop_down),
+            iconSize: 24,
+            elevation: 16,
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+            underline: Container(
+              height: 2,
+              color: Color.fromARGB(255, 14, 30, 44),
+            ),
+            value: state.locale.languageCode,
+            items: ['ar', 'en'].map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: Text(
+                    value,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
               );
-            }
-            return SizedBox();
-          },
-        ),
+            }).toList(),
+            onChanged: (String? newValue) {
+              if (newValue != null) {
+                // BlocProvider.of<LocaleCubit>(context)
+                //     .changeLanguage(newValue);
+
+                context.read<LocaleCubit>().changeLanguage(newValue);
+                // Navigator.pop(context);
+              }
+            },
+          );
+        }),
       ),
     );
   }
